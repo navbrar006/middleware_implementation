@@ -23,24 +23,19 @@ app.use("/api", protectedRoutes);
 
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
+  console.error(err.stack);
 
   res.status(err.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
     error: err.message || "Internal Server Error",
   });
 });
 
-const PORT = process.env.PORT || 3000;
-
-// Run locally only
+// local only
 if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }
 
 export default app;
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
